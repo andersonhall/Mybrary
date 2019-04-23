@@ -91,7 +91,12 @@ router.delete('/:id', async (req, res) => {
 		if (author == null) {
 			res.redirect('/');
 		} else {
-			res.redirect(`/authors/${author.id}`);
+			const booksByAuthor = await Book.find({ author: author.id });
+			res.render(`authors/show`, {
+				author: author,
+				errorMessage: 'Books are still assigned to this author',
+				booksByAuthor: booksByAuthor,
+			});
 		}
 	}
 });
